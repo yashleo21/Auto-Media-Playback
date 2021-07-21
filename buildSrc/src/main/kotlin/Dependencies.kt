@@ -1,4 +1,5 @@
 import Versions.kotlin_version
+import org.apache.tools.ant.taskdefs.optional.depend.Depend
 
 object Versions {
     val kotlin_version = "1.5.20"
@@ -10,6 +11,8 @@ object Versions {
     val jUnit_androidX = "1.1.3"
     val hilt_version = "2.35"
     val gradle = "4.2.1"
+    val gson_version = "2.8.7"
+    val exoplayer_version = "2.14.1"
 }
 
 object AndroidX {
@@ -37,4 +40,12 @@ object Dagger {
     val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt_version}"
     val hilt_core = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     val hilt_annotation_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
+}
+
+object Gson {
+    val core = "com.google.code.gson:gson:${Versions.gson_version}"
+}
+
+object Exoplayer {
+    val core = "com.google.android.exoplayer:exoplayer:${Versions.exoplayer_version}"
 }

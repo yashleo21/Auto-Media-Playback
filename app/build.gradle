@@ -50,6 +50,10 @@ dependencies {
     //Hilt
     implementation Dagger.hilt_core
     kapt Dagger.hilt_annotation_compiler
+    //Gson
+    implementation Gson.core
+    //Exoplayer
+    implementation Exoplayer.core
 }
 
 android.sourceSets.all {
