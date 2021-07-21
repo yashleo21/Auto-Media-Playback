@@ -24,14 +24,15 @@
                 android:id="@+id/player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                app:surface_type="surface_view"
+                android:visibility="visible"
                 app:use_controller="false" />
 
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible"
                 tools:src="@color/grey" />
         </FrameLayout>

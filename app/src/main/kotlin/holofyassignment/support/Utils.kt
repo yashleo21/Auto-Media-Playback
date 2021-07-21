@@ -7,12 +7,19 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowInsets
 import android.view.WindowMetrics
-import java.io.IOException
-import java.io.InputStream
-import java.nio.charset.Charset
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 
 
 object Utils {
+    const val STATE_RESET_PLAYER = 666
+    const val STATE_RESUME_PLAYER = 667
+
     fun getScreenWidth(context: Context): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics: WindowMetrics = (context as Activity).windowManager.currentWindowMetrics
@@ -26,19 +33,44 @@ object Utils {
         }
     }
 
-    fun getJsonFromAssets(context: Context, fileName: String): String? {
-        val jsonString: String
-        jsonString = try {
-            val `is`: InputStream = context.assets.open(fileName)
-            val size: Int = `is`.available()
-            val buffer = ByteArray(size)
-            `is`.read(buffer)
-            `is`.close()
-            String(buffer, Charset.forName("UTF-8"))
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return null
-        }
-        return jsonString
+    fun buildMediaItem(url: String): MediaItem {
+        return MediaItem.fromUri(url)
+    }
+
+    fun buildMediaSource(url: String, cache: SimpleCache): MediaSource {
+        // Create a data source factory.
+        val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+
+        val cacheDataSourceFactory: DataSource.Factory = CacheDataSource.Factory()
+            .setCache(cache)
+            .setUpstreamDataSourceFactory(dataSourceFactory)
+
+        // Create a progressive media source pointing to a stream uri.
+        val mediaSource: MediaSource = ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(url))
+
+        return mediaSource
+    }
+
+    fun buildCacheDataSource(cache: SimpleCache): CacheDataSource {
+        // Create a data source factory.
+        val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+
+        val cacheDataSourceFactory: CacheDataSource.Factory = CacheDataSource.Factory()
+            .setCache(cache)
+            .setUpstreamDataSourceFactory(dataSourceFactory)
+
+        return cacheDataSourceFactory.createDataSource()
+    }
+
+    fun buildCacheDataSourceFactory(cache: SimpleCache): DataSource.Factory {
+        // Create a data source factory.
+        val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+
+        val cacheDataSourceFactory: DataSource.Factory = CacheDataSource.Factory()
+            .setCache(cache)
+            .setUpstreamDataSourceFactory(dataSourceFactory)
+
+        return cacheDataSourceFactory
     }
 }
