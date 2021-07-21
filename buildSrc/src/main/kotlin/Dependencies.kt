@@ -1,4 +1,6 @@
+import Versions.fragment_version
 import Versions.kotlin_version
+import Versions.lifecycle_version
 import org.apache.tools.ant.taskdefs.optional.depend.Depend
 
 object Versions {
@@ -13,6 +15,9 @@ object Versions {
     val gradle = "4.2.1"
     val gson_version = "2.8.7"
     val exoplayer_version = "2.14.1"
+    val lifecycle_version = "2.4.0-alpha02"
+    val fragment_version = "1.3.5"
+
 }
 
 object AndroidX {
@@ -20,6 +25,10 @@ object AndroidX {
     val material = "com.google.android.material:material:${Versions.material}"
     val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     val jUnit = "androidx.test.ext:junit:${Versions.jUnit_androidX}"
+    val lifecycleViewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    val lifecycleLivedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    val lifecycleAnnotationProcessor = "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    val fragment = "androidx.fragment:fragment-ktx:$fragment_version"
 }
 
 object GradleDepndency {

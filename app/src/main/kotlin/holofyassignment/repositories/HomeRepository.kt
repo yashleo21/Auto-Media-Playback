@@ -1,4 +1,7 @@
 package holofyassignment.repositories
 
-class HomeRepository {
+import holofyassignment.models.HomeDataObject
+
+interface HomeRepository {
+    fun getHomeData(): ArrayList<HomeDataObject>
 }

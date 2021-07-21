@@ -3,12 +3,13 @@ package holofyassignment.support
 import android.app.Activity
 import android.content.Context
 import android.graphics.Insets
-import android.graphics.Point
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowInsets
 import android.view.WindowMetrics
-import androidx.core.view.WindowInsetsCompat
+import java.io.IOException
+import java.io.InputStream
+import java.nio.charset.Charset
 
 
 object Utils {
@@ -23,5 +24,21 @@ object Utils {
             (context as Activity).windowManager.defaultDisplay.getMetrics(displayMetrics)
             displayMetrics.widthPixels
         }
+    }
+
+    fun getJsonFromAssets(context: Context, fileName: String): String? {
+        val jsonString: String
+        jsonString = try {
+            val `is`: InputStream = context.assets.open(fileName)
+            val size: Int = `is`.available()
+            val buffer = ByteArray(size)
+            `is`.read(buffer)
+            `is`.close()
+            String(buffer, Charset.forName("UTF-8"))
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+        return jsonString
     }
 }

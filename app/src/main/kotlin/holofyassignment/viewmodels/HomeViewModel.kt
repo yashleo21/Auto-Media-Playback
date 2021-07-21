@@ -1,8 +1,11 @@
 package holofyassignment.viewmodels
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import holofyassignment.repositories.HomeRepository
+import javax.inject.Inject
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: HomeRepository): ViewModel() {
 
-class HomeViewModel(application: Application): AndroidViewModel(application) {
-
+    fun getHomeDataList() = repository.getHomeData()
 }

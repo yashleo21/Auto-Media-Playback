@@ -54,6 +54,12 @@ dependencies {
     implementation Gson.core
     //Exoplayer
     implementation Exoplayer.core
+    //Lifecycle
+    implementation AndroidX.lifecycleViewmodel
+    implementation AndroidX.lifecycleLivedata
+    kapt AndroidX.lifecycleAnnotationProcessor
+    //Fragment
+    implementation AndroidX.fragment
 }
 
 android.sourceSets.all {
