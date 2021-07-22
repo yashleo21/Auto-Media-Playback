@@ -41,6 +41,7 @@ object ExoplayerModule {
             .build()
 
         player.repeatMode = Player.REPEAT_MODE_ALL
+        player.audioComponent?.volume = 0f
         return player
     }
 

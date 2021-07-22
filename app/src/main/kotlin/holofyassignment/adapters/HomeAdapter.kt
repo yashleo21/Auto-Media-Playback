@@ -31,12 +31,10 @@ class HomeAdapter @Inject constructor(val callback: Callback,
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bindView(getItem(position))
+        holder.bindView(getItem(position), position)
     }
 
     inner class ItemViewHolder(val binding: ItemListHomeBinding): RecyclerView.ViewHolder(binding.root), PlayerAttach {
-
-        var mediaSource: MediaSource? = null
 
         override fun attachExoplayer(exoPlayer: ExoPlayer) {
             Log.d(TAG, "Attach player called")
@@ -54,7 +52,7 @@ class HomeAdapter @Inject constructor(val callback: Callback,
             }
         }
 
-        override fun exoplayerPlaybackState(state: Int) {
+        override fun exoplayerPlaybackState(state: Int, exoPlayer: ExoPlayer) {
             when (state) {
                 Player.STATE_BUFFERING -> {
                     mediaSource?.let {
@@ -77,37 +75,31 @@ class HomeAdapter @Inject constructor(val callback: Callback,
 
                 STATE_RESUME_PLAYER -> {
                     mediaSource?.let {
-                        resumePlayer()
+                        resumePlayer(exoPlayer)
                     }
                 }
             }
         }
 
-        private fun pauseState() {
-            binding.thumbnail.visibility = View.VISIBLE
-            binding.player.visibility = View.INVISIBLE
+        var mediaSource: MediaSource? = null
+
+        init {
+            attachListeners()
         }
 
-        private fun resumeState() {
-            binding.player.visibility = View.VISIBLE
-            binding.thumbnail.visibility = View.INVISIBLE
-        }
+        private fun attachListeners() {
+            binding.root.setOnClickListener {
+                if (adapterPosition < 0) return@setOnClickListener
+                val position = adapterPosition
 
-        private fun resetState() {
-            if (binding.player.player != null) {
-                (binding.player.player as ExoPlayer).playWhenReady = false
-                binding.thumbnail.visibility = View.VISIBLE
-                binding.player.visibility = View.INVISIBLE
+                callback.onItemClicked(getItem(position), position, binding.player)
             }
         }
 
-        fun resumePlayer() {
-            if (binding.player.player != null) {
-                binding.player.player?.playWhenReady = true
-            }
-        }
 
-        fun bindView(data: HomeDataObject) {
+        fun bindView(data: HomeDataObject, position: Int) {
+            //Set uniuqe transition name
+            binding.player.transitionName = "player$position"
             //Set title
             if (data.title?.isNotBlank() == true) {
                 binding.tvTitle.visibility = View.VISIBLE
@@ -128,6 +120,31 @@ class HomeAdapter @Inject constructor(val callback: Callback,
             mediaSource = if (data.sources?.elementAtOrNull(0)?.isNotBlank() == true) Utils.buildMediaSource(url = data.sources?.elementAtOrNull(0) ?: "",
                 cache = cache) else null
         }
+
+        private fun pauseState() {
+            binding.thumbnail.visibility = View.VISIBLE
+            binding.player.visibility = View.INVISIBLE
+        }
+
+        private fun resumeState() {
+            binding.player.visibility = View.VISIBLE
+            binding.thumbnail.visibility = View.INVISIBLE
+        }
+
+        private fun resetState() {
+            if (binding.player.player != null) {
+                (binding.player.player as ExoPlayer).playWhenReady = false
+                binding.thumbnail.visibility = View.VISIBLE
+                binding.player.visibility = View.INVISIBLE
+            }
+        }
+
+        fun resumePlayer(player: ExoPlayer) {
+            if (binding.player.player == null) {
+                binding.player.player = player
+            }
+            binding.player.player?.playWhenReady = true
+        }
     }
 
     class HomeDiffUtil(): DiffUtil.ItemCallback<HomeDataObject>() {
@@ -141,6 +158,6 @@ class HomeAdapter @Inject constructor(val callback: Callback,
     }
 
     interface Callback {
-        fun onItemClicked(data: HomeDataObject, position: Int)
+        fun onItemClicked(data: HomeDataObject, position: Int, transitionView: View)
     }
 }

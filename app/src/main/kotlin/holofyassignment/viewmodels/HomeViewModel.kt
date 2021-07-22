@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository,
     var activeViewPosition = -1
     //Exoplayer active view visibility threshold. Currently set to 25%
     val viewVisibilityThresholdEnter = 25f
-    val viewVisibilityThreshholdExit = 25f
+    val viewVisibilityThreshholdExit = 45f
 
     var data: ArrayList<HomeDataObject> = ArrayList()
 
@@ -42,4 +42,13 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository,
             }
         }
     }
+
+
+    /**
+     * For Detail Fragment
+     */
+
+    var title: String = ""
+    var subtitle: String = ""
+    var transitionName: String = ""
 }

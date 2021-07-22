@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:clickable="true">
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/player"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:resize_mode="zoom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:use_controller="false"
+        app:surface_type="texture_view" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        tools:text="SERIOUSLY?"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/player"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Walk this way... if you can"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_subtitle"
+        android:text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eros quam, consequat et mollis et, interdum ut ipsum. Etiam dignissim fringilla mi, et maximus diam gravida et. Suspendisse tincidunt purus est, quis bibendum arcu placerat non. Maecenas porta condimentum augue sit amet suscipit. Cras id congue magna. Maecenas tempor sapien nec ipsum ultrices commodo. Ut ut urna porta, mollis tortor non, maximus sem. Suspendisse commodo orci non sem rutrum blandit in nec neque. Pellentesque efficitur lobortis libero aliquam porta. Aliquam vel semper lacus, ut condimentum lectus. Sed at commodo est. Vivamus quis dignissim urna, quis malesuada nibh.
+\n\nEtiam eu arcu urna. Proin in elit lorem. Vivamus lacinia elit non neque fermentum, a pretium risus tincidunt. Pellentesque hendrerit feugiat lacus a ullamcorper. Nam quis neque libero. Quisque a mauris elit. Duis gravida, nisi at dictum rhoncus, orci sem iaculis lorem, sit amet commodo massa ipsum quis sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec nisi sagittis, accumsan ante id, iaculis arcu. Nulla quis nulla est. Praesent tempor interdum arcu, non iaculis sapien tempus quis. Quisque non lobortis leo. Nam lacinia tempus pulvinar. "/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

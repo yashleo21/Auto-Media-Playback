@@ -1,17 +1,22 @@
 package holofyassignment.ui.fragment
 
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionInflater
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
+import com.yash2108.holofyassignment.R
 import com.yash2108.holofyassignment.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import holofyassignment.adapters.HomeAdapter
@@ -23,7 +28,7 @@ import holofyassignment.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment: Fragment(), HomeAdapter.Callback {
+class HomeFragment : Fragment(), HomeAdapter.Callback {
 
     private val TAG = HomeFragment::class.java.simpleName
 
@@ -31,8 +36,10 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<HomeViewModel>()
-    @Inject lateinit var adapter: HomeAdapter
-    @Inject lateinit var exoplayer: ExoPlayer
+    @Inject
+    lateinit var adapter: HomeAdapter
+    @Inject
+    lateinit var exoplayer: ExoPlayer
 
     private var listener: Player.Listener? = null
 
@@ -48,6 +55,7 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        postponeEnterTransition()
         bindAdapter()
         prepareDataAndUpdateAdapter()
         cacheVideos()
@@ -58,7 +66,7 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
     }
 
     private fun initListeners() {
-        binding.rvItems.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        binding.rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -76,19 +84,24 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
                 super.onPlayerStateChanged(playWhenReady, playbackState)
                 Log.d(TAG, "Player state: $playbackState")
-                val currentViewHolder = binding.rvItems.findViewHolderForAdapterPosition(viewModel.activeViewPosition
-                    ?: 0)
+                val currentViewHolder = binding.rvItems.findViewHolderForAdapterPosition(
+                    viewModel.activeViewPosition
+                        ?: 0
+                )
                 if (currentViewHolder != null && currentViewHolder is PlayerAttach) {
-                    currentViewHolder.exoplayerPlaybackState(playbackState)
+                    currentViewHolder.exoplayerPlaybackState(playbackState, exoplayer)
                 }
             }
         }
-
-        exoplayer.addListener(listener!!)
     }
 
     private fun determineActiveHolder(recyclerView: RecyclerView, globalVisibleRect: Rect) {
-        viewModel.activeViewPosition?.let { activePosition ->
+        val firstPosition =
+            (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
+        val lastPosition =
+            (recyclerView.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
+
+        viewModel.activeViewPosition.let { activePosition ->
             if (activePosition != -1) {
                 recyclerView.findViewHolderForAdapterPosition(activePosition)
                     ?.let { viewHolder ->
@@ -97,15 +110,24 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
                                 globalVisibleRect = globalVisibleRect,
                                 viewholder = viewHolder
                             )
-                            viewModel?.viewVisibilityThreshholdExit?.let { visibilityThreshold ->
+                            viewModel.viewVisibilityThreshholdExit.let { visibilityThreshold ->
                                 if (visibilityPercent >= visibilityThreshold) {
-                                    Log.d(TAG, "Active view is media and above threshold ${visibilityPercent} no need to re-calculate")
+                                    Log.d(
+                                        TAG,
+                                        "Active view is media and above threshold ${visibilityPercent} no need to re-calculate"
+                                    )
                                     return
                                 } else {
-                                    Log.d(TAG, "Active view is below threshold ${visibilityPercent}")
+                                    Log.d(
+                                        TAG,
+                                        "Active view is below threshold ${visibilityPercent}"
+                                    )
                                     //Muting the player
                                     exoplayer.audioComponent?.volume = 0f
-                                    (viewHolder as PlayerAttach).exoplayerPlaybackState(STATE_RESET_PLAYER)
+                                    (viewHolder as PlayerAttach).exoplayerPlaybackState(
+                                        STATE_RESET_PLAYER,
+                                        exoplayer
+                                    )
                                     viewModel.activeViewPosition = -1
                                 }
                             }
@@ -114,15 +136,17 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
             }
         }
 
-        val firstPosition = (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
-        val lastPosition = (recyclerView.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
-
         val exoHolderPair = mutableListOf<Pair<Int, Float>>()
         for (pos in (firstPosition ?: 0)..(lastPosition ?: 0)) {
             val viewHolder = recyclerView.findViewHolderForAdapterPosition(pos)
             if (viewHolder != null && viewHolder.itemView.height > 0) {
                 //Find percentage of the views height w.r.t avaialble global rect height
-                exoHolderPair.add(Pair<Int, Float>(pos, getVisibilityPercentage(globalVisibleRect, viewHolder)))
+                exoHolderPair.add(
+                    Pair<Int, Float>(
+                        pos,
+                        getVisibilityPercentage(globalVisibleRect, viewHolder)
+                    )
+                )
             }
         }
 
@@ -130,7 +154,8 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
             //
             if (exoHolderPair.size == 1) {
                 if (viewModel?.activeViewPosition ?: 0 != exoHolderPair[0].first) {
-                    val viewHolder = recyclerView.findViewHolderForAdapterPosition(exoHolderPair[0].first)
+                    val viewHolder =
+                        recyclerView.findViewHolderForAdapterPosition(exoHolderPair[0].first)
                     if (viewHolder != null && viewHolder is PlayerAttach) {
                         Log.d(TAG, "Marking view holder as active for media playback")
                         viewModel?.activeViewPosition = exoHolderPair[0].first
@@ -186,6 +211,8 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
         viewModel.getHomeDataList().let {
             adapter.submitList(it.toList())
         }
+
+        (binding.root.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun cacheVideos() {
@@ -197,38 +224,72 @@ class HomeFragment: Fragment(), HomeAdapter.Callback {
         exoplayer?.playWhenReady = false
     }
 
-    private fun resumePlayer() {
-        if (viewModel?.activeViewPosition ?: 0 == -1) return
-        val viewHolder = binding.rvItems.findViewHolderForAdapterPosition(viewModel?.activeViewPosition
-            ?: 0)
-        if (viewHolder != null && viewHolder is PlayerAttach) {
-            viewHolder.exoplayerPlaybackState(STATE_RESUME_PLAYER)
+    fun resumePlayer() {
+        binding.rvItems.post {
+            if (viewModel?.activeViewPosition ?: 0 == -1) return@post
+            val viewHolder = binding.rvItems.findViewHolderForAdapterPosition(
+                viewModel?.activeViewPosition
+                    ?: 0
+            )
+            if (viewHolder != null && viewHolder is PlayerAttach) {
+                viewHolder.exoplayerPlaybackState(STATE_RESUME_PLAYER, exoplayer)
+            }
         }
     }
 
-    override fun onItemClicked(data: HomeDataObject, position: Int) {
+    override fun onItemClicked(data: HomeDataObject, position: Int, transitionView: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+            //Sharing the same viewmodel, we can use VM to share data between the 2 fragments
+            viewModel.title = data.title ?: ""
+            viewModel.subtitle = data.subtitle ?: ""
+            viewModel.transitionName = transitionView.transitionName
+
+            val fragment = DetailFragment.newInstance()
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                sharedElementReturnTransition = TransitionInflater.from(requireContext())
+                    .inflateTransition(R.transition.default_transition)
+                exitTransition = TransitionInflater.from(requireContext())
+                    .inflateTransition(android.R.transition.no_transition)
+
+                fragment.sharedElementEnterTransition = TransitionInflater.from(requireContext())
+                    .inflateTransition(R.transition.default_transition)
+                fragment.enterTransition = TransitionInflater.from(requireContext())
+                    .inflateTransition(android.R.transition.no_transition)
+            }
+
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.fragment_containing_view, fragment, "detailFragment")
+                ?.addSharedElement(transitionView, transitionView.transitionName)
+                ?.addToBackStack("detail")
+                ?.setReorderingAllowed(true)
+                ?.commit()
+        }
     }
 
     override fun onPause() {
         super.onPause()
+        Log.d(TAG, "On pause called")
+        listener?.let {
+            exoplayer.removeListener(it)
+        }
         pausePlayer()
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "On resume called")
+        listener?.let {
+            exoplayer.removeListener(it)
+            exoplayer.addListener(it)
+        }
         resumePlayer()
     }
 
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
-    }
-
-    companion object {
-        fun newInstance(): HomeFragment {
-            val fragment = HomeFragment()
-            return fragment
-        }
     }
 }

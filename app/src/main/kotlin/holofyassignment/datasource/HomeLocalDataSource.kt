@@ -27,7 +27,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Blender Foundation\",\n" +
-            "          \"thumb\": \"images/BigBuckBunny.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg\",\n" +
             "          \"title\": \"Big Buck Bunny\"\n" +
             "        },\n" +
             "        {\n" +
@@ -36,7 +36,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Blender Foundation\",\n" +
-            "          \"thumb\": \"images/ElephantsDream.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg\",\n" +
             "          \"title\": \"Elephant Dream\"\n" +
             "        },\n" +
             "        {\n" +
@@ -45,7 +45,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Google\",\n" +
-            "          \"thumb\": \"images/ForBiggerBlazes.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg\",\n" +
             "          \"title\": \"For Bigger Blazes\"\n" +
             "        },\n" +
             "        {\n" +
@@ -54,7 +54,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Google\",\n" +
-            "          \"thumb\": \"images/ForBiggerEscapes.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg\",\n" +
             "          \"title\": \"For Bigger Escape\"\n" +
             "        },\n" +
             "        {\n" +
@@ -63,7 +63,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Google\",\n" +
-            "          \"thumb\": \"images/ForBiggerFun.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg\",\n" +
             "          \"title\": \"For Bigger Fun\"\n" +
             "        },\n" +
             "        {\n" +
@@ -72,7 +72,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Google\",\n" +
-            "          \"thumb\": \"images/ForBiggerJoyrides.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg\",\n" +
             "          \"title\": \"For Bigger Joyrides\"\n" +
             "        },\n" +
             "        {\n" +
@@ -81,7 +81,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Google\",\n" +
-            "          \"thumb\": \"images/ForBiggerMeltdowns.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerMeltdowns.jpg\",\n" +
             "          \"title\": \"For Bigger Meltdowns\"\n" +
             "        },\n" +
             "        {\n" +
@@ -90,7 +90,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Blender Foundation\",\n" +
-            "          \"thumb\": \"images/Sintel.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg\",\n" +
             "          \"title\": \"Sintel\"\n" +
             "        },\n" +
             "        {\n" +
@@ -99,7 +99,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Garage419\",\n" +
-            "          \"thumb\": \"images/SubaruOutbackOnStreetAndDirt.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/SubaruOutbackOnStreetAndDirt.jpg\",\n" +
             "          \"title\": \"Subaru Outback On Street And Dirt\"\n" +
             "        },\n" +
             "        {\n" +
@@ -108,7 +108,7 @@ class HomeLocalDataSource @Inject constructor(val application: Application,
             "            \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4\"\n" +
             "          ],\n" +
             "          \"subtitle\": \"By Blender Foundation\",\n" +
-            "          \"thumb\": \"images/TearsOfSteel.jpg\",\n" +
+            "          \"thumb\": \"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg\",\n" +
             "          \"title\": \"Tears of Steel\"\n" +
             "        },\n" +
             "        {\n" +

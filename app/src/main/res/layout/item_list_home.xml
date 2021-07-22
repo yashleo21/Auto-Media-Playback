@@ -9,7 +9,8 @@
     android:layout_marginTop="20dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/white">
+    app:cardBackgroundColor="@color/white"
+    app:rippleColor="@android:color/transparent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -24,8 +25,9 @@
                 android:id="@+id/player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:surface_type="surface_view"
-                android:visibility="visible"
+                app:surface_type="texture_view"
+                app:resize_mode="zoom"
+                android:visibility="gone"
                 app:use_controller="false" />
 
             <ImageView
@@ -34,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 tools:visibility="visible"
-                tools:src="@color/grey" />
+                android:src="@color/grey" />
         </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
