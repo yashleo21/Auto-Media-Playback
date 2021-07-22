@@ -30,10 +30,12 @@ object ExoplayerModule {
         val MAX_BUFFER_DURATION = 5000
         val MIN_PLAYBACK_START_BUFFER = 1024
         val MIN_PLAYBACK_RESUME_BUFFER = 1024
-        loadControlBuilder.setBufferDurationsMs(MIN_BUFFER_DURATION,
+        loadControlBuilder.setBufferDurationsMs(
+            MIN_BUFFER_DURATION,
             MAX_BUFFER_DURATION,
             MIN_PLAYBACK_START_BUFFER,
-            MIN_PLAYBACK_RESUME_BUFFER)
+            MIN_PLAYBACK_RESUME_BUFFER
+        )
 
         val player = SimpleExoPlayer.Builder(application)
             .setLoadControl(loadControlBuilder.build())
@@ -52,6 +54,10 @@ object ExoplayerModule {
         val leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(exoplayerCacheSize)
         val exoDatabaseProvider = ExoDatabaseProvider(application)
 
-        return SimpleCache(File(application.cacheDir, "media"), leastRecentlyUsedCacheEvictor, exoDatabaseProvider)
+        return SimpleCache(
+            File(application.cacheDir, "media"),
+            leastRecentlyUsedCacheEvictor,
+            exoDatabaseProvider
+        )
     }
 }

@@ -16,10 +16,11 @@ import holofyassignment.viewmodels.HomeViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailFragment: Fragment() {
+class DetailFragment : Fragment() {
 
     private val TAG = DetailFragment::class.java.simpleName
-    @Inject lateinit var exoplayer: ExoPlayer
+    @Inject
+    lateinit var exoplayer: ExoPlayer
 
     private var _binding: FragmentDetailBinding? = null
     private val binding: FragmentDetailBinding get() = _binding!!

@@ -34,7 +34,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         initBackStackListener()
         inflateFragment(savedInstanceState = savedInstanceState)
-        Log.d(TAG, "${viewModel.getHomeDataList()}")
+        Log.d(TAG, "${viewModel.fetchData()}")
     }
 
     private fun inflateFragment(savedInstanceState: Bundle?) {
@@ -47,12 +47,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initBackStackListener() {
-        supportFragmentManager?.addOnBackStackChangedListener(object: FragmentManager.OnBackStackChangedListener {
+        supportFragmentManager?.addOnBackStackChangedListener(object :
+            FragmentManager.OnBackStackChangedListener {
             override fun onBackStackChanged() {
-                when (val fragment = supportFragmentManager?.findFragmentById(R.id.fragment_containing_view)) {
+                when (val fragment =
+                    supportFragmentManager?.findFragmentById(R.id.fragment_containing_view)) {
                     is HomeFragment -> {
                         Log.d(TAG, "Home fragment on top")
-                   //     fragment.resumePlayer()
+                        //     fragment.resumePlayer()
                     }
 
                     is DetailFragment -> {

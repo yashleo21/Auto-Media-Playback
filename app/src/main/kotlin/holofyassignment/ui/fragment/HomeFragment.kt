@@ -10,9 +10,10 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
 import androidx.transition.TransitionInflater
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
@@ -36,8 +37,10 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
     private val binding get() = _binding!!
 
     private val viewModel by activityViewModels<HomeViewModel>()
+
     @Inject
     lateinit var adapter: HomeAdapter
+
     @Inject
     lateinit var exoplayer: ExoPlayer
 
@@ -54,10 +57,11 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListeners()
-        postponeEnterTransition()
         bindAdapter()
-        prepareDataAndUpdateAdapter()
+        initListeners()
+        initObservers()
+        postponeEnterTransition()
+        fetchData()
         cacheVideos()
     }
 
@@ -95,6 +99,27 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
         }
     }
 
+    private fun initObservers() {
+        viewModel.homeDataLiveData.observe(viewLifecycleOwner, Observer {
+            prepareDataAndUpdateAdapter(data = it)
+        })
+    }
+
+    private fun fetchData() {
+        viewModel.fetchData()
+    }
+
+    private fun prepareDataAndUpdateAdapter(data: ArrayList<HomeDataObject>) {
+        adapter.submitList(data.toList())
+
+        (binding.root.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
+    /**
+     * Logic to calculate the active view and pass the exoplayer instance to active view holder
+     * - Initially check if the active holder's visibility is more than threshold, if it is, no longer need to continue calculation
+     * - Else, find all viewport and according to the size, hand over the exoplayer and active status to that view holder
+     */
     private fun determineActiveHolder(recyclerView: RecyclerView, globalVisibleRect: Rect) {
         val firstPosition =
             (recyclerView.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
@@ -207,28 +232,20 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
         return (visibilityExtent / globalVisibleRect.height()) * 100
     }
 
-    private fun prepareDataAndUpdateAdapter() {
-        viewModel.getHomeDataList().let {
-            adapter.submitList(it.toList())
-        }
-
-        (binding.root.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
-    }
-
     private fun cacheVideos() {
         viewModel.cacheVideos()
     }
 
     private fun pausePlayer() {
-        if (viewModel?.activeViewPosition ?: 0 == -1) return
-        exoplayer?.playWhenReady = false
+        if (viewModel.activeViewPosition ?: 0 == -1) return
+        exoplayer.playWhenReady = false
     }
 
     fun resumePlayer() {
         binding.rvItems.post {
-            if (viewModel?.activeViewPosition ?: 0 == -1) return@post
+            if (viewModel.activeViewPosition ?: 0 == -1) return@post
             val viewHolder = binding.rvItems.findViewHolderForAdapterPosition(
-                viewModel?.activeViewPosition
+                viewModel.activeViewPosition
                     ?: 0
             )
             if (viewHolder != null && viewHolder is PlayerAttach) {
@@ -290,6 +307,8 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
 
     override fun onDestroyView() {
         _binding = null
+        viewModel.homeDataLiveData.removeObservers(this)
+        viewModel.homeDataMutableLiveData = MutableLiveData()
         super.onDestroyView()
     }
 }

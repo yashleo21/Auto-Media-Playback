@@ -22,7 +22,8 @@ object Utils {
 
     fun getScreenWidth(context: Context): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics: WindowMetrics = (context as Activity).windowManager.currentWindowMetrics
+            val windowMetrics: WindowMetrics =
+                (context as Activity).windowManager.currentWindowMetrics
             val insets: Insets = windowMetrics.windowInsets
                 .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
             windowMetrics.bounds.width() - insets.left - insets.right

@@ -13,7 +13,6 @@ import holofyassignment.adapters.HomeAdapter
 object HomeModule {
 
 
-
     @Provides
     fun providesCallback(fragment: Fragment): HomeAdapter.Callback {
         return fragment as HomeAdapter.Callback

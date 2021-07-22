@@ -1,5 +1,7 @@
 package holofyassignment.viewmodels
 import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.exoplayer2.upstream.DataSource
@@ -21,6 +23,10 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository,
                                         private val cache: SimpleCache,
                                         private val exoplayerCache: ExoplayerCache): ViewModel() {
 
+
+    var homeDataMutableLiveData: MutableLiveData<ArrayList<HomeDataObject>> = MutableLiveData()
+    val homeDataLiveData: LiveData<ArrayList<HomeDataObject>> get() = homeDataMutableLiveData
+
     //For Playback
     var activeViewPosition = -1
     //Exoplayer active view visibility threshold. Currently set to 25%
@@ -29,9 +35,9 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository,
 
     var data: ArrayList<HomeDataObject> = ArrayList()
 
-    fun getHomeDataList(): ArrayList<HomeDataObject> {
+    fun fetchData() = viewModelScope.launch {
         data = repository.getHomeData()
-        return data
+        homeDataMutableLiveData.postValue(data)
     }
 
     fun cacheVideos() = viewModelScope.launch (Dispatchers.IO) {

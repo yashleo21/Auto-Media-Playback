@@ -13,8 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HomeLocalDataSource @Inject constructor(val application: Application,
-                                              val gson: Gson) {
+class HomeLocalDataSource @Inject constructor(val gson: Gson) {
 
     val responseString = "{\n" +
             "  \"categories\": [\n" +

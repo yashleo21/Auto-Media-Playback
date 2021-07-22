@@ -20,9 +20,11 @@ class ExoplayerCache @Inject constructor() {
 
     private val TAG = ExoplayerCache::class.java.simpleName
 
-    fun cacheVideo(dataSpec: DataSpec,
-                   cache: SimpleCache,
-                   progressListener: CacheWriter.ProgressListener?) {
+    fun cacheVideo(
+        dataSpec: DataSpec,
+        cache: SimpleCache,
+        progressListener: CacheWriter.ProgressListener?
+    ) {
         try {
             // Create a data source factory.
             val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
@@ -37,7 +39,8 @@ class ExoplayerCache @Inject constructor() {
                 Utils.buildCacheDataSource(cache),
                 dataSpec,
                 null,
-                progressListener)
+                progressListener
+            )
 
 
             cacheWriter.cache()
