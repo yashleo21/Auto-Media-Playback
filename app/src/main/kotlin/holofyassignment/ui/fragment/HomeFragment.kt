@@ -57,12 +57,13 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
         bindAdapter()
         initListeners()
         initObservers()
-        postponeEnterTransition()
         fetchData()
         cacheVideos()
+        view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     private fun bindAdapter() {
@@ -112,7 +113,7 @@ class HomeFragment : Fragment(), HomeAdapter.Callback {
     private fun prepareDataAndUpdateAdapter(data: ArrayList<HomeDataObject>) {
         adapter.submitList(data.toList())
 
-        (binding.root.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
+     //   (binding.root.parent as? ViewGroup)?.doOnPreDraw { startPostponedEnterTransition() }
     }
 
     /**

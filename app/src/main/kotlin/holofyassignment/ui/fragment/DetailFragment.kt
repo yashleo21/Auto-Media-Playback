@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
 import com.yash2108.holofyassignment.R
 import com.yash2108.holofyassignment.databinding.FragmentDetailBinding
+import com.yash2108.holofyassignment.databinding.FragmentDetailNewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import holofyassignment.viewmodels.HomeViewModel
 import javax.inject.Inject
@@ -22,8 +23,8 @@ class DetailFragment : Fragment() {
     @Inject
     lateinit var exoplayer: ExoPlayer
 
-    private var _binding: FragmentDetailBinding? = null
-    private val binding: FragmentDetailBinding get() = _binding!!
+    private var _binding: FragmentDetailNewBinding? = null
+    private val binding: FragmentDetailNewBinding get() = _binding!!
 
     private val viewModel by activityViewModels<HomeViewModel>()
 
@@ -36,7 +37,7 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailNewBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -48,7 +49,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun assignTransitionName() {
-        binding.player.transitionName = viewModel.transitionName
+        binding.root.transitionName = viewModel.transitionName
     }
 
     private fun initUI() {

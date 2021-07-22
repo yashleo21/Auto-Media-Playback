@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white"
+    app:rippleColor="@android:color/transparent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:surface_type="texture_view"
+                app:resize_mode="zoom"
+                app:use_controller="false" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            tools:text="SERIOUSLY?"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            tools:text="Walk this way... if you can"
+            android:textColor="@color/text_color"
+            android:textSize="24sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textColor="@color/black"
+                android:text=" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eros quam, consequat et mollis et, interdum ut ipsum. Etiam dignissim fringilla mi, et maximus diam gravida et. Suspendisse tincidunt purus est, quis bibendum arcu placerat non. Maecenas porta condimentum augue sit amet suscipit. Cras id congue magna. Maecenas tempor sapien nec ipsum ultrices commodo. Ut ut urna porta, mollis tortor non, maximus sem. Suspendisse commodo orci non sem rutrum blandit in nec neque. Pellentesque efficitur lobortis libero aliquam porta. Aliquam vel semper lacus, ut condimentum lectus. Sed at commodo est. Vivamus quis dignissim urna, quis malesuada nibh.
+\n\nEtiam eu arcu urna. Proin in elit lorem. Vivamus lacinia elit non neque fermentum, a pretium risus tincidunt. Pellentesque hendrerit feugiat lacus a ullamcorper. Nam quis neque libero. Quisque a mauris elit. Duis gravida, nisi at dictum rhoncus, orci sem iaculis lorem, sit amet commodo massa ipsum quis sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec nisi sagittis, accumsan ante id, iaculis arcu. Nulla quis nulla est. Praesent tempor interdum arcu, non iaculis sapien tempus quis. Quisque non lobortis leo. Nam lacinia tempus pulvinar. "/>
+        </ScrollView>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

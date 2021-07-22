@@ -92,14 +92,14 @@ class HomeAdapter @Inject constructor(val callback: Callback,
                 if (adapterPosition < 0) return@setOnClickListener
                 val position = adapterPosition
 
-                callback.onItemClicked(getItem(position), position, binding.player)
+                callback.onItemClicked(getItem(position), position, binding.root)
             }
         }
 
 
         fun bindView(data: HomeDataObject, position: Int) {
             //Set uniuqe transition name
-            binding.player.transitionName = "player$position"
+            binding.root.transitionName = "player$position"
             //Set title
             if (data.title?.isNotBlank() == true) {
                 binding.tvTitle.visibility = View.VISIBLE
