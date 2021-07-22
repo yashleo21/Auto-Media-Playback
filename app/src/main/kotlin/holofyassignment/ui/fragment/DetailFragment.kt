@@ -80,7 +80,6 @@ class DetailFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        exoplayer.audioComponent?.volume = 0f
         binding.player.player = null
         _binding = null
         super.onDestroyView()
