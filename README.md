@@ -13,3 +13,4 @@ Tools & technologies used:
 - RecyclerView with ListAdapter+DiffUtil for the home feed
 - Shared Elements transition between RecyclerView Viewholder & Fragment
 - Single Activity app
+- Dependencies organized centrally
